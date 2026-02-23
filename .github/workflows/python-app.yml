@@ -51,11 +51,11 @@ jobs:
       - name: Build Windows EXE
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile ^
-            --windowed ^
-            --name "Waddle Console" ^
-            --icon=Assets/Console.ico ^
-            --add-data "Assets;Assets" ^
+          pyinstaller --onefile `
+            --windowed `
+            --name "Waddle Console" `
+            --icon=Assets/Console.ico `
+            --add-data "Assets;Assets" `
             main.py
 
       # -------------------------
