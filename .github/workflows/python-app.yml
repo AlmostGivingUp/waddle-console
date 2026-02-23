@@ -29,7 +29,6 @@ jobs:
         run: |
           pyinstaller --onefile `
             --add-data "Assets;Assets" `
-            --add-data "Profiles;Profiles" `
             --windowed main.py
 
       - name: Build executable (Linux/macOS)
@@ -37,7 +36,6 @@ jobs:
         run: |
           pyinstaller --onefile \
             --add-data "Assets:Assets" \
-            --add-data "Profiles:Profiles" \
             --windowed main.py
 
       - name: Upload artifact

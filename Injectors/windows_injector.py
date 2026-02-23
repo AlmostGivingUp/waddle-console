@@ -1,6 +1,6 @@
 import ctypes 
 from ctypes import wintypes
-from Assets.windows_const import VK, MOUSE_FLAG, SCROLL
+from Constants.windows_const import VK, MOUSE_FLAG, SCROLL
 from mapping import get_mapping, InpEng
 
 INPUT_MOUSE = 0
