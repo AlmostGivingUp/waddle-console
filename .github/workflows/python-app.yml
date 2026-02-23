@@ -1,3 +1,5 @@
+name: Build Waddle Console
+
 on:
   push:
     branches: [ "main" ]
@@ -13,8 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -23,23 +24,70 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
+          pip install pillow
 
-      - name: Build executable (Windows)
+      # -------------------------
+      # Windows: Create .ico
+      # -------------------------
+      - name: Create Windows icon
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile `
-            --add-data "Assets;Assets" `
-            --windowed main.py
+          python - <<EOF
+          from PIL import Image
+          img = Image.open("Assets/Console.png")
+          img.save("Assets/Console.ico", format="ICO", sizes=[(256,256)])
+          EOF
 
-      - name: Build executable (Linux/macOS)
-        if: runner.os != 'Windows'
+      # -------------------------
+      # macOS: Create .icns
+      # -------------------------
+      - name: Create macOS icon
+        if: runner.os == 'macOS'
+        run: |
+          mkdir icon.iconset
+          sips -z 512 512 Assets/Console.png --out icon.iconset/icon_512x512.png
+          cp Assets/Console.png icon.iconset/icon_512x512@2x.png
+          iconutil -c icns icon.iconset -o Assets/Console.icns
+
+      # -------------------------
+      # Build Windows
+      # -------------------------
+      - name: Build Windows EXE
+        if: runner.os == 'Windows'
+        run: |
+          pyinstaller --onefile ^
+            --windowed ^
+            --name "Waddle Console" ^
+            --icon=Assets/Console.ico ^
+            --add-data "Assets;Assets" ^
+            main.py
+
+      # -------------------------
+      # Build macOS
+      # -------------------------
+      - name: Build macOS App
+        if: runner.os == 'macOS'
         run: |
           pyinstaller --onefile \
+            --windowed \
+            --name "Waddle Console" \
+            --icon=Assets/Console.icns \
             --add-data "Assets:Assets" \
-            --windowed main.py
+            main.py
 
-      - name: Upload artifact
+      # -------------------------
+      # Build Linux
+      # -------------------------
+      - name: Build Linux Binary
+        if: runner.os == 'Linux'
+        run: |
+          pyinstaller --onefile \
+            --name "Waddle Console" \
+            --add-data "Assets:Assets" \
+            main.py
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ runner.os }}
+          name: Waddle-Console-${{ runner.os }}
           path: dist/
