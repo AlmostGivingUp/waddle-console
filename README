@@ -1,0 +1,8 @@
+**Setting up venv**
+python3 -m venv venv  # type: ignore
+
+**Always run this command before dependency install and running files** 
+source venv/bin/activate # pyright: ignore[reportUndefinedVariable]
+pip install [DEPENDENCY] # type: ignore
+sudo /home/yan_wong/Console/venv/bin/python [SCRIPT]
+
