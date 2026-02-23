@@ -32,11 +32,7 @@ jobs:
       - name: Create Windows icon
         if: runner.os == 'Windows'
         run: |
-          python - <<EOF
-          from PIL import Image
-          img = Image.open("Assets/Console.png")
-          img.save("Assets/Console.ico", format="ICO", sizes=[(256,256)])
-          EOF
+          python -c "from PIL import Image; img = Image.open('Assets/Console.png'); img.save('Assets/Console.ico', format='ICO', sizes=[(256,256)])"
 
       # -------------------------
       # macOS: Create .icns
