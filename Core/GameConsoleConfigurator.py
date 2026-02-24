@@ -340,7 +340,7 @@ class MappingApp:
                 elif key_code == 174:
                     key_name = dpg.get_value(f"key_value_{self.current_selected_key}")
             else: 
-                key_name = self.key_lookup.get(key_code, f"Key_{key_code}")
+                key_name = self.key_lookup.get(key_code, self.key_mapping[self.current_selected_key])
 
             # Save the mapping
             if self.current_config_mode == "normal":
