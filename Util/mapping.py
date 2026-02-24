@@ -186,8 +186,8 @@ def get_mapping():
         key_mapping = {
             
             "Button 1": "A",
-            "Button 2" : "Shift",
-            "Button 3": "Esc",
+            "Button 2" : "SHIFT",
+            "Button 3": "ESC",
             "Button 4": "K", 
             
             "Knob Clockwise (X)" : "D",
