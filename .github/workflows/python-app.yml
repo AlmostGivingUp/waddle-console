@@ -57,6 +57,7 @@ jobs:
       - name: Debug hid import
         if: runner.os == 'Windows'
         run: |
+          pip list 
           python -c "import hid; print(hid.__file__)"
 
       # -------------------------
