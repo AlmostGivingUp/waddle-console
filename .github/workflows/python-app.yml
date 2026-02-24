@@ -46,6 +46,15 @@ jobs:
           iconutil -c icns icon.iconset -o Assets/Console.icns
 
       # -------------------------
+      # Linux: System HIF Library
+      # -------------------------
+      - name: Install system HID library (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt update
+          sudo apt install -y libhidapi-hidraw0
+
+      # -------------------------
       # Build Windows
       # -------------------------
       - name: Build Windows EXE
