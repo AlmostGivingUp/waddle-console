@@ -46,13 +46,13 @@ jobs:
           iconutil -c icns icon.iconset -o Assets/Console.icns
 
       # -------------------------
-      # Linux: System HIF Library
+      # Linux: System HID Library
       # -------------------------
       - name: Install system HID library (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt update
-          sudo apt install -y libhidapi-hidraw0
+          sudo apt install -y libhidapi-dev
 
       # -------------------------
       # Build Windows
@@ -65,6 +65,7 @@ jobs:
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
+            --collect-binaries hid `
             main.py
 
       # -------------------------
@@ -73,11 +74,13 @@ jobs:
       - name: Build macOS App
         if: runner.os == 'macOS'
         run: |
+          brew install hidapi 
           pyinstaller --onefile \
             --windowed \
             --name "Waddle Console" \
             --icon=Assets/Console.icns \
             --add-data "Assets:Assets" \
+            --collect-binaries hid \
             main.py
 
       # -------------------------
@@ -89,6 +92,7 @@ jobs:
           pyinstaller --onefile \
             --name "Waddle Console" \
             --add-data "Assets:Assets" \
+            --collect-binaries hid \
             main.py
 
       - name: Upload Artifact
