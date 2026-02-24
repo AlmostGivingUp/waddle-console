@@ -65,7 +65,7 @@ jobs:
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
-            --collect-binaries hid `
+            --collect-all hid `
             main.py
 
       # -------------------------
@@ -80,7 +80,7 @@ jobs:
             --name "Waddle Console" \
             --icon=Assets/Console.icns \
             --add-data "Assets:Assets" \
-            --collect-binaries hid \
+            --collect-all hid \
             main.py
 
       # -------------------------
@@ -92,7 +92,7 @@ jobs:
           pyinstaller --onefile \
             --name "Waddle Console" \
             --add-data "Assets:Assets" \
-            --collect-binaries hid \
+            --collect-all hid \
             main.py
 
       - name: Upload Artifact
