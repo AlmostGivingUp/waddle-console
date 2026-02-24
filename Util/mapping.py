@@ -25,6 +25,7 @@ def unpack_data(data: list):
     """
     Unpack HID report data
     """
+    data = bytes(data)
     mode_bits = data[2]
     buttons_bits = data[3]
     delta = struct.unpack('<h', data[0:2])[0]
