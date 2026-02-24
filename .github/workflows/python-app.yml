@@ -61,7 +61,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           pyinstaller --onefile `
-            --windowed `
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
