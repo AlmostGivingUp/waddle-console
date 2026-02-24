@@ -54,24 +54,17 @@ jobs:
           sudo apt update
           sudo apt install -y libhidapi-dev
 
-      - name: Debug hid import
-        if: runner.os == 'Windows'
-        run: |
-          pip list 
-          python -c "import hid; print(hid.__file__)"
-
       # -------------------------
       # Build Windows
       # -------------------------
       - name: Build Windows EXE
         if: runner.os == 'Windows'
         run: |
-          pyinstaller `
+          pyinstaller --onefile`
             --windowed `
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
-            --collect-all hid `
             main.py
 
       # -------------------------
@@ -81,12 +74,11 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install hidapi 
-          pyinstaller \
+          pyinstaller --onefile \
             --windowed \
             --name "Waddle Console" \
             --icon=Assets/Console.icns \
             --add-data "Assets:Assets" \
-            --collect-all hid \
             main.py
 
       # -------------------------
@@ -95,10 +87,9 @@ jobs:
       - name: Build Linux Binary
         if: runner.os == 'Linux'
         run: |
-          pyinstaller \
+          pyinstaller --onefile\
             --name "Waddle Console" \
             --add-data "Assets:Assets" \
-            --collect-all hid \
             main.py
 
       - name: Upload Artifact

@@ -1,6 +1,5 @@
 import platform
 import hid
-from hid import HIDException
 import time 
 from Util.mapping import show_popup, messagebox
 if platform.system() == "Windows":
@@ -25,7 +24,8 @@ def connect_device():
     while True:
         try:
             print("Opening the device")
-            device = hid.Device(VID, PID)
+            device = hid.device()
+            device.open(VID, PID)
             print("Manufacturer: %s" % device.get_manufacturer_string())
             print("Product: %s" % device.get_product_string())
             print("Serial No: %s" % device.get_serial_number_string())
@@ -37,7 +37,7 @@ def connect_device():
             )
             return device
 
-        except HIDException:
+        except OSError:
             res = show_popup(
                 f"Device VID {VID} PID {PID} not found. Retry?",
                 1
