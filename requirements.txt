@@ -1,5 +1,5 @@
 dearpygui==2.2
-evdev==1.9.3 ; platform.system == 'linux'
+evdev==1.9.3 ; platform.system == 'Linux'
 hidapi==0.15.0
 pillow==12.1.1
 python-xlib==0.33 ; platform.system == 'Windows'
