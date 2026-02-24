@@ -147,8 +147,8 @@ class MappingApp:
 
                     with dpg.child_window(tag="Instructions", width=-1, height=-1, pos=(0, INIT_HEIGHT)) as Instructions: 
                 
-                        dpg.add_text("This application is made specific to the Yan Game Console (YGC). " \
-                        "Be aware the leftmost button is reserved for switching the knob to mouse click mode.",
+                        dpg.add_text("Thanks for using Waddle Console! (^0^) " \
+                        "Hint: Be aware the leftmost button is reserved for switching the knob to mouse click mode.",
                         wrap = 380)
                         
                         mode = "Mouse Configuration" if self.current_config_mode == "Normal" else "Normal"
@@ -207,7 +207,7 @@ class MappingApp:
         self._build_knob_popup()
 
         #--------------------------Boilerplate --------------------------
-        dpg.create_viewport(title="Gamepad Mapper", width=INIT_WIDTH, height=INIT_HEIGHT)
+        dpg.create_viewport(title="Waddle Console", width=INIT_WIDTH, height=INIT_HEIGHT)
         dpg.setup_dearpygui()
         dpg.show_viewport()
         dpg.set_primary_window("Primary_Window", True)

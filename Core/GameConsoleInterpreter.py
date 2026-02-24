@@ -27,7 +27,7 @@ def show_popup(message):
     """
     root = tk.Tk()
     root.withdraw()  # Hide main window
-    messagebox.showinfo("HID Status", message)
+    messagebox.showinfo("Waddle Console", message)
     root.destroy()
 
 def interpret(VID=VID, PID=PID):
