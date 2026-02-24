@@ -2,12 +2,20 @@ import ctypes
 from ctypes import wintypes
 from Constants.windows_const import VK, MOUSE_FLAG, SCROLL
 from Util.mapping import get_mapping, InpEng
+from ctypes import c_ulong, c_ulonglong
 
 INPUT_MOUSE = 0
 INPUT_KEYBOARD = 1
 RELEASE = 0x0002
 user32 = ctypes.WinDLL("user32", use_last_error=True)
+from platform import architecture
 
+if architecture()[0] == '64bit':
+    ULONG_PTR = c_ulonglong
+else:
+    ULONG_PTR = c_ulong
+
+    
 """ 
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-keybdinput 
 typedef struct tagKEYBDINPUT {
@@ -24,7 +32,7 @@ class KEYBDINPUT(ctypes.Structure):
         ("wScan", wintypes.WORD),
         ("dwFlags", wintypes.DWORD),
         ("time", wintypes.DWORD),
-        ("dwExtraInfo", wintypes.ULONG_PTR),
+        ("dwExtraInfo", ULONG_PTR),
     ]
 """
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-mouseinput
@@ -44,7 +52,7 @@ class MOUSEINPUT(ctypes.Structure):
         ("mouseData", wintypes.DWORD),
         ("dwFlags", wintypes.DWORD),
         ("time", wintypes.DWORD),
-        ("dwExtraInfo", wintypes.ULONG_PTR),
+        ("dwExtraInfo", ULONG_PTR),
     ]
 
 """
