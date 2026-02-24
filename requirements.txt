@@ -1,6 +1,6 @@
 dearpygui==2.2
-evdev==1.9.3 ; platform_system == "Linux"
+evdev==1.9.3
+hid==1.0.9
 pynput==1.8.1
-python-xlib==0.33 ; platform_system == "Windows" 
-pyusb==1.3.1
+python-xlib==0.33
 six==1.17.0

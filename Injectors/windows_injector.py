@@ -14,8 +14,6 @@ if architecture()[0] == '64bit':
     ULONG_PTR = c_ulonglong
 else:
     ULONG_PTR = c_ulong
-
-    
 """ 
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-keybdinput 
 typedef struct tagKEYBDINPUT {

@@ -1,6 +1,25 @@
 
 import json 
 import struct
+import tkinter as tk
+from tkinter import messagebox
+
+_title = "Waddle Console"
+
+_root = None
+
+def show_popup(message, opt):
+    global _root
+
+    if _root is None:
+        _root = tk.Tk()
+        _root.withdraw()
+
+    match opt:
+        case 0:
+            return messagebox.showinfo(_title, message)
+        case 1:
+            return messagebox.askokcancel(_title, message)
 
 def unpack_data(data: list):
     """
@@ -20,12 +39,12 @@ class InpEng:
     button2 = 0x02
     button3 = 0x04
     button4 = 0x08
-    mouse_on = 0x02
-    Y_mode_on = 0x01
+    _mouse_on = 0x02
+    _Y_mode_on = 0x01
     
     #Cursor
-    CURSOR_GAIN = 1.5 
-    MAX_CURSOR_DIST = 100 
+    _CURSOR_GAIN = 1.5 
+    _MAX_CURSOR_DIST = 100 
     
     def __init__(self):
         """
@@ -37,17 +56,17 @@ class InpEng:
         self.mouse_previous_keys = set()
 
         #Cursor
-        self.velocity = 0
+        self._velocity = 0
         self.is_cursor_mode_on = False
 
     def update_data(self, data):
         """
         update class vars through data unpacking 
         """
-        self.mode_bits, self.buttons_bits, self.delta = unpack_data(data)
-        self.is_Y_mode_on = bool(self.mode_bits & self.Y_mode_on)
-        self.is_mouse_on = bool(self.mode_bits & self.mouse_on)
-        self.is_cursor_mode_on = bool(self.is_cursor_mode_on ^ (self.buttons_bits & self.button1))
+        self._mode_bits, self._buttons_bits, self.delta = unpack_data(data)
+        self.is_Y_mode_on = bool(self._mode_bits & self._Y_mode_on)
+        self.is_mouse_on = bool(self._mode_bits & self._mouse_on)
+        self.is_cursor_mode_on = bool(self.is_cursor_mode_on ^ (self._buttons_bits & self.button1))
         
     def clear_cur(self):
         """
@@ -60,15 +79,15 @@ class InpEng:
         """
         update current keys set 
         """
-        assert self.buttons_bits is not None 
-        self.current_keys.add(key) if self.buttons_bits & mask else self.current_keys.discard(key)
+        assert self._buttons_bits is not None 
+        self.current_keys.add(key) if self._buttons_bits & mask else self.current_keys.discard(key)
 
     def update_mouse_cur_keys(self, key, mask):
         """
         update mouse current keys set 
         """
-        assert self.buttons_bits is not None
-        self.mouse_current_keys.add(key) if self.buttons_bits & mask else self.mouse_current_keys.discard(key) 
+        assert self._buttons_bits is not None
+        self.mouse_current_keys.add(key) if self._buttons_bits & mask else self.mouse_current_keys.discard(key) 
     
     def check_mouse_on(self) -> bool:
         """
@@ -94,14 +113,14 @@ class InpEng:
         """
         if not self.is_cursor_mode_on:
             # clear velocity 
-            self.velocity = 0
+            self._velocity = 0
             return 0,0
         if self.delta:
-            self.velocity = 0.6 * self.velocity + 0.2 * self.delta
+            self._velocity = 0.6 * self._velocity + 0.2 * self.delta
         else:
-            self.velocity *= 0.4
-        movement = int(self.velocity * self.CURSOR_GAIN)
-        movement = max(-self.MAX_CURSOR_DIST, min(self.MAX_CURSOR_DIST, movement))
+            self._velocity *= 0.4
+        movement = int(self._velocity * self._CURSOR_GAIN)
+        movement = max(-self._MAX_CURSOR_DIST, min(self._MAX_CURSOR_DIST, movement))
 
         if self.is_Y_mode_on:
             dy = movement

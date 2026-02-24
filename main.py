@@ -1,11 +1,11 @@
 from Core.GameConsoleConfigurator import start_configurator
-from Core.GameConsoleInterpreter import interpret
+from Core.GameConsoleInterpreter import connecting_and_read
 import time 
 
 def main():
     start_configurator()
     time.sleep(2)
-    interpret()
+    connecting_and_read()
 
 
 if __name__ == "__main__":
