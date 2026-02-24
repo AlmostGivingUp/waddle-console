@@ -216,6 +216,7 @@ def cursor_handler():
     """
     dx, dy = inp.check_cursor_movement()
     if dx or dy:
+        print(f"moving cursor:{dx} , {dy}")
         move_cursor(dx, dy)
   
     
@@ -234,6 +235,7 @@ def knob_handler_keyb():
         if inp.delta == 0:
             release_key(VK[key_map["Knob Clockwise (Y)"]])
             release_key(VK[key_map["Knob Anti-Clockwise (Y)"]])
+        print("Y-mode is on, delta:", inp.delta)
     else:
         if inp.delta > 0: 
             release_key(VK[key_map["Knob Anti-Clockwise (X)"]])
@@ -246,29 +248,41 @@ def knob_handler_keyb():
             release_key(VK[key_map["Knob Anti-Clockwise (X)"]])
 
 def knob_handler_mouse():
+    """
+    Handle scrolls 
+    """
     Y_mode = inp.check_Y_mode_on()
     if Y_mode:
+        print("scrolling vertical")
         v_scroll(inp.delta * SCROLL) 
     else: 
+        print("scrolling horizontal")
         h_scroll(inp.delta * SCROLL)
 
 def update_keyboard():
+    """
+    update keyboard input 
+    """
     inp.clear_cur()
-
     inp.update_cur_keys("Button 1", inp.button1)
     inp.update_cur_keys("Button 2", inp.button2)
     inp.update_cur_keys("Button 3", inp.button3)
     inp.update_cur_keys("Button 4", inp.button4)
 
     for key in inp.get_cur_diff_prev():
+        print(f"{key} is pressed, producing input {key_map[key]}")
         press_key(VK[key_map[key]])
 
     for key in inp.get_prev_diff_cur():
+        print(f"{key} is released, releasing input {key_map[key]}")
         release_key(VK[key_map[key]])
     
     inp.update_prev() 
    
 def update_mouse():
+    """
+    update mouse movement
+    """
     inp.clear_cur()
 
     inp.update_cur_keys("Button 2", inp.button2)
@@ -297,6 +311,9 @@ def update_mouse():
     inp.update_mouse_prev()
     
 def key_mapping(data: list):
+    """
+    Mapping the keys 
+    """
     inp.update_data(data)
     mouse_on = inp.check_mouse_on()
 
