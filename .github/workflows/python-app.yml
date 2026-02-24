@@ -60,7 +60,7 @@ jobs:
       - name: Build Windows EXE
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile`
+          pyinstaller --onefile `
             --windowed `
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
@@ -87,7 +87,7 @@ jobs:
       - name: Build Linux Binary
         if: runner.os == 'Linux'
         run: |
-          pyinstaller --onefile\
+          pyinstaller --onefile \
             --name "Waddle Console" \
             --add-data "Assets:Assets" \
             main.py
