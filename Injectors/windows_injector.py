@@ -322,8 +322,10 @@ def key_mapping(data: list):
         if inp.check_cursor_mode_on():
             cursor_handler()
         else:
-            knob_handler_mouse()
+            if inp.delta:
+                knob_handler_mouse()
     else:
         update_keyboard()
-        knob_handler_keyb()
+        if inp.delta:
+            knob_handler_keyb()
 
