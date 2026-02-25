@@ -44,7 +44,7 @@ class InpEng:
     _Y_mode_on = 0x01
     
     #Cursor
-    _CURSOR_GAIN = 10 
+    _CURSOR_GAIN = 10
     _MAX_CURSOR_DIST = 100 
     
     def __init__(self):
@@ -117,7 +117,7 @@ class InpEng:
             self._velocity = 0
             return 0,0
         if self.delta:
-            self._velocity = 0.6 * self._velocity + 0.2 * self.delta
+            self._velocity = 0.6 * self._velocity + self.delta
         else:
             self._velocity *= 0.4
         movement = int(self._velocity * self._CURSOR_GAIN)
