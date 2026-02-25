@@ -1,19 +1,18 @@
 import dearpygui.dearpygui as dpg # type: ignore
 import json 
 import platform 
-from pathlib import Path 
+from Util import path 
 
 # Key Mapping interface
 INIT_WIDTH, INIT_HEIGHT = 800, 600
 CHILD_WIDTH, CHILD_HEIGHT = 400, -1 # -1 fills to bottom
 aspect_ratio = (INIT_HEIGHT / INIT_WIDTH) * 1.5 
 
-BASE_DIR = Path(__file__).resolve().parent   # Console / Core   
-PROJECT_ROOT = BASE_DIR.parent      # Console     
-IMAGE_PATH = PROJECT_ROOT / "Assets" / "Console.png"
-FONT_PATH = PROJECT_ROOT / "Assets" 
-PROFILE_PATH = PROJECT_ROOT / "Profiles" 
-ACTIVE_PATH = PROJECT_ROOT / "Injectors"
+IMAGE_PATH = path.get_resource_path("Assets/Console.png")
+FONT_PATH = path.get_resource_path("Assets")
+
+PROFILE_PATH = path.get_profiles_dir()
+ACTIVE_PATH = path.get_active_dir()
 
 class MappingApp:
     def __init__(self):
@@ -394,6 +393,7 @@ class MappingApp:
             dpg.add_input_text(tag="knob_ccw_y", label="Knob Anti-Clockwise (Y)")
             dpg.add_spacer(height=10)
             dpg.add_button(label="Save", callback=save_knob)
+
             
     def profile_items(self):
         """
@@ -402,12 +402,8 @@ class MappingApp:
         dpg.delete_item("Profile_Manager", children_only=True)
         dpg.add_text("Profiles", parent="Profile_Manager", color=(0, 255, 0), tag="Profile_Label")
         
-        script_dir = Path(__file__).parent
-        suffix = "_Mouse.json" if self.current_config_mode != "Normal" else ".json"
-        
-        for file_path in script_dir.glob("*.json"):
-            if "Active_" in file_path.name: continue
-            
+        for file_path in PROFILE_PATH.glob("*.json"):
+
             is_mouse_file = file_path.name.endswith("_Mouse.json")
             
             if (self.current_config_mode == "Normal" and not is_mouse_file) or \
@@ -504,10 +500,10 @@ class MappingApp:
         filename = PROFILE_PATH / f"{profile_name}_Mouse.json" if self.current_config_mode == "Mouse Configuration" and not profile_name.endswith("_Mouse.json") else f"{profile_name}.json"
         active_configs = ACTIVE_PATH / "Active_Config.json"
         active_mouse_configs = ACTIVE_PATH / "Active_Mouse_Config.json"
-        #Save Data
+        
         
         if self.current_config_mode == "Normal":
-        #Send Data to Processing Backend (Apply)
+        #Save and Send Data to Processing Backend (Apply)
             with open(filename, 'w') as f:
                 json.dump(self.key_mapping, f, indent=4)
 

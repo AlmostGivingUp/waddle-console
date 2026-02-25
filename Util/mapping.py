@@ -4,6 +4,7 @@ import struct
 import tkinter as tk
 from tkinter import messagebox
 
+
 _title = "Waddle Console"
 
 _root = None
@@ -115,11 +116,12 @@ class InpEng:
         
         if not self.is_cursor_mode_on:
             return 0,0
+        
         movement = int(self.delta * self._CURSOR_GAIN)
         movement = max(-self._MAX_CURSOR_DIST, min(self._MAX_CURSOR_DIST, movement))
 
         if self.is_Y_mode_on:
-            dy = movement
+            dy = -movement
             dx = 0
         else: 
             dx = movement
