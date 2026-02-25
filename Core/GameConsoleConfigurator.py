@@ -10,13 +10,9 @@ aspect_ratio = (INIT_HEIGHT / INIT_WIDTH) * 1.5
 
 IMAGE_PATH = path.get_resource_path("Assets/Console.png")
 FONT_PATH = path.get_resource_path("Assets")
-
-print(IMAGE_PATH, FONT_PATH)
-
 PROFILE_PATH = path.get_profiles_dir()
 ACTIVE_PATH = path.get_active_dir()
 
-print(PROFILE_PATH, ACTIVE_PATH)
 
 class MappingApp:
     def __init__(self):
@@ -504,6 +500,8 @@ class MappingApp:
         filename = PROFILE_PATH / f"{profile_name}_Mouse.json" if self.current_config_mode == "Mouse Configuration" and not profile_name.endswith("_Mouse.json") else f"{profile_name}.json"
         active_configs = ACTIVE_PATH / "Active_Config.json"
         active_mouse_configs = ACTIVE_PATH / "Active_Mouse_Config.json"
+        print(IMAGE_PATH, FONT_PATH)
+        print(PROFILE_PATH, ACTIVE_PATH)
         
         
         if self.current_config_mode == "Normal":
