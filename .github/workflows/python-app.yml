@@ -63,9 +63,7 @@ jobs:
           pyinstaller --clean --onefile `
           --name "Waddle Console" `
           --add-data "Assets:Assets" `
-          --collect-submodules Core `
-          --collect-submodules Util `
-          --collect-submodules Injectors `
+          --paths . `
           main.py
            
 

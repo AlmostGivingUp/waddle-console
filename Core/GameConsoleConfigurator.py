@@ -2,17 +2,17 @@ import dearpygui.dearpygui as dpg # type: ignore
 import json 
 import platform 
 import os 
-from Util import path 
+from Util import pathfinder 
 
 # Key Mapping interface
 INIT_WIDTH, INIT_HEIGHT = 800, 600
 CHILD_WIDTH, CHILD_HEIGHT = 400, -1 # -1 fills to bottom
 aspect_ratio = (INIT_HEIGHT / INIT_WIDTH) * 1.5 
 
-IMAGE_PATH = path.get_resource_path("Assets/Console.png")
-FONT_PATH = path.get_resource_path("Assets")
-PROFILE_PATH = path.get_profiles_dir()
-ACTIVE_PATH = path.get_active_dir()
+IMAGE_PATH = pathfinder.get_resource_path("Assets/Console.png")
+FONT_PATH = pathfinder.get_resource_path("Assets")
+PROFILE_PATH = pathfinder.get_profiles_dir()
+ACTIVE_PATH = pathfinder.get_active_dir()
 
 
 class MappingApp:
