@@ -123,6 +123,11 @@ class MappingApp:
             """
             Prepare fonts to be used
             """
+            with dpg.font(str(FONT_PATH / "fa-solid-900.ttf"), 18) as icon_font:
+                dpg.add_font_range(0xf000, 0xf8ff)
+
+            self.icon_font = icon_font
+
             header_size = 35
             self.header_noname_bold = dpg.add_font(str(FONT_PATH / "NoName37-Bold.otf"), header_size)
             self.header_noname_light = dpg.add_font(str(FONT_PATH / "NoName37-Light.otf"), header_size)
@@ -410,14 +415,26 @@ class MappingApp:
             (self.current_config_mode != "Normal" and is_mouse_file):
                 
                 profile_name = file_path.stem
-                dpg.add_button(
-                    label=profile_name, 
-                    parent="Profile_Manager",
-                    width=-1,
-                    callback=self.load_config,
-                    user_data=profile_name
-                )
-            
+                with dpg.group(horizontal=True, parent="Profile_Manager"):
+
+                    # Load Button
+                    dpg.add_button(
+                        label=profile_name,
+                        width=200,
+                        callback=self.load_config,
+                        user_data=profile_name
+                    )
+
+                    # Delete Button
+                    delete_btn = dpg.add_button(
+                        label="\uf2ed",  # trash icon
+                        width=35,
+                        callback=self.delete_profile_ui,
+                        user_data=profile_name
+                    )
+
+                    dpg.bind_item_font(delete_btn, self.icon_font)
+
             dpg.bind_item_font("Profile_Manager", self.body_noname_light)
             dpg.bind_item_font("Profile_Label", self.header_noname_bold)
 
