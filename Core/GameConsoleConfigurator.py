@@ -3,6 +3,11 @@ import json
 import platform 
 import os 
 from Util import pathfinder
+import queue  
+from Core.GameConsoleInterpreter import connecting_and_read
+import threading
+
+
 
 # Key Mapping interface
 INIT_WIDTH, INIT_HEIGHT = 800, 600
@@ -18,6 +23,7 @@ ACTIVE_PATH = pathfinder.get_active_dir()
 class MappingApp:
     def __init__(self):
         dpg.create_context()
+        self.event_queue = queue.Queue()
         self.os = platform.system() 
         self.popup_open = False
         self.key_mapping = {
@@ -126,7 +132,6 @@ class MappingApp:
             """
             with dpg.font(str(FONT_PATH / "fa-solid-900.ttf"), 18) as icon_font:
                 dpg.add_font_range(0xf000, 0xf8ff)
-
             self.icon_font = icon_font
 
             header_size = 35
@@ -208,15 +213,48 @@ class MappingApp:
                 dpg.bind_font(self.header_noname_bold)
                 dpg.bind_item_font("Console_Map_Label", self.header_noname_bold)
                 dpg.bind_item_font("Console_Map_Para", self.body_noname_light)
-               
+            
         self._build_knob_popup()
+        self._build_error_popup()
 
         #--------------------------Boilerplate --------------------------
         dpg.create_viewport(title="Waddle Console", width=INIT_WIDTH, height=INIT_HEIGHT)
         dpg.setup_dearpygui()
         dpg.show_viewport()
         dpg.set_primary_window("Primary_Window", True)
-    
+        dpg.set_frame_callback(1, self._poll_events)
+
+        threading.Thread(
+            target=connecting_and_read,
+            args=(self.event_queue,),
+            daemon=True
+        ).start()
+
+    def _build_error_popup(self):
+            """
+            Building Popup 
+            """
+            with dpg.window(
+                tag="Pop_Up_Window",
+                modal=True,
+                show=False,
+                no_close=True,
+                width=400,
+                height=150
+            ):
+                dpg.add_text("", tag="Pop_Up", wrap=350)
+                dpg.add_spacer(height=10)
+                dpg.add_button(label="OK", callback=lambda: dpg.hide_item("Pop_Up_Window"))
+
+    def _poll_events(self, sender, app_data):
+        while not self.event_queue.empty():
+            event_type, message = self.event_queue.get()
+            if event_type == "Error" or event_type == "Success":
+                dpg.set_value("Pop_Up", message)
+                dpg.show_item("Pop_Up_Window")
+        # Keep polling every frame
+        dpg.set_frame_callback(dpg.get_frame_count() + 1, self._poll_events)
+
     def toggle_mode(self, sender, app_data, user_data):
         new_mode = "Mouse Configuration" if self.current_config_mode == "Normal" else "Normal"
         self.current_config_mode = new_mode
@@ -432,7 +470,6 @@ class MappingApp:
                         width=35,
                         callback=self.delete_profile,
                         user_data=profile_name,
-                        tag = "Delete_Button"
                     )
 
                     dpg.bind_item_font(delete_btn, self.icon_font)
@@ -440,12 +477,12 @@ class MappingApp:
             dpg.bind_item_font("Profile_Manager", self.body_noname_light)
             dpg.bind_item_font("Profile_Label", self.header_noname_bold)
 
-    def delete_profile(self):
-        profile_name = dpg.get_value("Delete_Button")
-        try:
-            os.remove(PROFILE_PATH / profile_name)
-        except: 
-            print("File not found")
+    def delete_profile(self, sender, app_data, user_data):
+        profile_name = user_data
+        file_path = PROFILE_PATH / f"{profile_name}.json"
+        if file_path.exists():
+            os.remove(file_path)
+        self.profile_items()
 
     def mouse_config_list(self):
         """

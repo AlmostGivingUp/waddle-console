@@ -1,7 +1,8 @@
 import platform
 import hid
 import time 
-from Util.mapping import show_popup, messagebox
+import queue 
+
 if platform.system() == "Windows":
     from Injectors.windows_injector import key_mapping
 """
@@ -18,9 +19,7 @@ VID = 0x0483
 PID = 0x5750
 
 
-def connect_device():
-    show_popup("Connecting device...Press OK when acknowledged", 0)
-
+def connect_device(event_queue: queue):
     while True:
         try:
             print("Opening the device")
@@ -31,19 +30,11 @@ def connect_device():
             print("Serial No: %s" % device.get_serial_number_string())
         
             device.set_nonblocking(True)
-            show_popup(
-                f"Device VID {VID} PID {PID} connected successfully!",
-                0
-            )
+            event_queue.put(("Success", f"Device VID={VID}  PID={PID} is found."))
             return device
 
         except OSError:
-            res = show_popup(
-                f"Device VID {VID} PID {PID} not found. Retry?",
-                1
-            )
-            if not res:
-                return None
+            event_queue.put(("Error", f"Device VID={VID}  PID={PID} not found. Retrying."))
             time.sleep(2)
 
 
@@ -54,7 +45,7 @@ def read_loop(device):
             print(data)
             key_mapping(data)
             
-def connecting_and_read():
-    device = connect_device()
+def connecting_and_read(event_queue: queue):
+    device = connect_device(event_queue)
     if device:
         read_loop(device)
