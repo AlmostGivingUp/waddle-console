@@ -73,7 +73,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install hidapi 
-          pyinstaller -- clean --onefile \
+          pyinstaller --clean --onefile \
             --windowed \
             --name "Waddle Console" \
             --icon=Assets/Console.icns \
