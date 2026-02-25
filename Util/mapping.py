@@ -178,6 +178,7 @@ def get_mapping():
     acfg = ACTIVE_PATH / "Active_Config.json"
     mcfg =  ACTIVE_PATH / "Active_Mouse_Config.json"
     try:
+        print(f"{acfg} is found")
         with open(acfg, "r") as f:
             key_mapping = json.load(f)
     except: 
@@ -196,6 +197,7 @@ def get_mapping():
         
         }
     try: 
+        print(f"{mcfg} found")
         with open(mcfg, "r") as f:
             mouse_mapping = json.load(f)
     except:
