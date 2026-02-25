@@ -60,7 +60,7 @@ jobs:
       - name: Build Windows EXE
         if: runner.os == 'Windows'
         run: |
-          pyinstaller -- clean --onefile `
+          pyinstaller --clean --onefile `
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
