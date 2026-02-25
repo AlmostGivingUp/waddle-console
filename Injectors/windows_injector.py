@@ -221,18 +221,16 @@ def move_cursor(dx, dy):
     print(f"Moving cursor by ( {dx}, {dy} )")
 
 inp = InpEng()
-key_map, mouse_map = get_mapping() 
 
-def cursor_handler():
+def cursor_handler(key_map, mouse_map):
     """
     handle cursor movement
     """
     dx, dy = inp.check_cursor_movement()
     if dx or dy:
         move_cursor(dx, dy)
-  
     
-def knob_handler_keyb():
+def knob_handler_keyb(key_map, mouse_map):
     """
     handle knob 
     """
@@ -258,7 +256,7 @@ def knob_handler_keyb():
             release_key(VK[key_map["Knob Clockwise (X)"]])
             release_key(VK[key_map["Knob Anti-Clockwise (X)"]])
 
-def knob_handler_mouse():
+def knob_handler_mouse(key_map, mouse_map):
     """
     Handle scrolls 
     """
@@ -268,7 +266,7 @@ def knob_handler_mouse():
     else: 
         h_scroll(inp.delta * SCROLL)
 
-def update_keyboard():
+def update_keyboard(key_map, mouse_map):
     """
     update keyboard input 
     """
@@ -285,8 +283,8 @@ def update_keyboard():
         release_key(VK[key_map[key]])
     
     inp.update_prev() 
-   
-def update_mouse():
+
+def update_mouse(key_map, mouse_map):
     """
     update mouse movement
     """
@@ -295,7 +293,7 @@ def update_mouse():
     inp.update_cur_keys("Button 2", inp.button2)
     inp.update_mouse_cur_keys("Button 3", inp.button3)
     inp.update_mouse_cur_keys("Button 4", inp.button4)
-     
+    
     for key in inp.get_cur_diff_prev():
         press_key(VK[mouse_map[key]])
 
@@ -316,23 +314,26 @@ def update_mouse():
 
     inp.update_prev()
     inp.update_mouse_prev()
+
     
 def key_mapping(data: list):
     """
     Mapping the keys 
     """
+    key_map, mouse_map = get_mapping() 
     inp.update_data(data)
     mouse_on = inp.check_mouse_on()
 
+
     if mouse_on:
-        update_mouse()
-        if inp.check_cursor_mode_on():
-            cursor_handler()
+        update_mouse(key_map, mouse_map)
+        if inp.check_cursor_mode_on(key_map, mouse_map):
+            cursor_handler(key_map, mouse_map)
         else:
             if inp.delta:
-                knob_handler_mouse()
+                knob_handler_mouse(key_map, mouse_map)
     else:
-        update_keyboard()
+        update_keyboard(key_map, mouse_map)
         if inp.delta:
-            knob_handler_keyb()
+            knob_handler_keyb(key_map, mouse_map)
 
