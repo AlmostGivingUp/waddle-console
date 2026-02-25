@@ -327,7 +327,7 @@ def key_mapping(data: list):
 
     if mouse_on:
         update_mouse(key_map, mouse_map)
-        if inp.check_cursor_mode_on(key_map, mouse_map):
+        if inp.check_cursor_mode_on():
             cursor_handler(key_map, mouse_map)
         else:
             if inp.delta:
