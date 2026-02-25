@@ -1,6 +1,7 @@
 import dearpygui.dearpygui as dpg # type: ignore
 import json 
 import platform 
+import os 
 from Util import path 
 
 # Key Mapping interface
@@ -429,14 +430,22 @@ class MappingApp:
                     delete_btn = dpg.add_button(
                         label="\uf2ed",  # trash icon
                         width=35,
-                        callback=self.delete_profile_ui,
-                        user_data=profile_name
+                        callback=self.delete_profile,
+                        user_data=profile_name,
+                        label = "Delete_Button"
                     )
 
                     dpg.bind_item_font(delete_btn, self.icon_font)
 
             dpg.bind_item_font("Profile_Manager", self.body_noname_light)
             dpg.bind_item_font("Profile_Label", self.header_noname_bold)
+
+    def delete_profile(self):
+        profile_name = dpg.get_value("Delete_Button")
+        try:
+            os.remove(PROFILE_PATH / profile_name)
+        except: 
+            print("File not found")
 
     def mouse_config_list(self):
         """
