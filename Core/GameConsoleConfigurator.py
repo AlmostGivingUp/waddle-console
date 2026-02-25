@@ -606,9 +606,6 @@ class MappingApp:
             self.current_config_mode = "Normal"
             dpg.configure_item("mode_button", label="Mouse Configuration")
 
-            # Rebuild config list UI
-        dpg.delete_item("Config_List", children_only=True)
-
         if dpg.does_item_exist("Profile_Name"):
             dpg.set_value("Profile_Name", profile_name)
 
