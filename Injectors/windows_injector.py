@@ -101,6 +101,8 @@ def press_key(vk_code):
     )
     inp = INPUT(type=INPUT_KEYBOARD, ki=ki)
     user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
+    print(f"pressing key {vk_code}")
+
 
 def release_key(vk_code):
     """
@@ -115,6 +117,7 @@ def release_key(vk_code):
     )
     inp = INPUT(type=INPUT_KEYBOARD, ki=ki)
     user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
+    print(f"releasing key {vk_code}")
 
 def left_click_press():
     """
@@ -126,6 +129,7 @@ def left_click_press():
     )
     
     user32.SendInput(1, ctypes.byref(down), ctypes.sizeof(down))
+    print("left click press")
     
 def left_click_release():
     """
@@ -136,6 +140,7 @@ def left_click_release():
         mi=MOUSEINPUT(0, 0, 0, MOUSE_FLAG["LEFTUP"], 0, 0)
     )
     user32.SendInput(1, ctypes.byref(up), ctypes.sizeof(up))
+    print("left click release")
 
 def right_click_press():
     """
@@ -147,6 +152,7 @@ def right_click_press():
     )
     
     user32.SendInput(1, ctypes.byref(down), ctypes.sizeof(down))
+    print("Right click pressed")
     
 def right_click_release():
     """
@@ -157,6 +163,7 @@ def right_click_release():
         mi=MOUSEINPUT(0, 0, 0, MOUSE_FLAG["RIGHTUP"], 0, 0)
     )
     user32.SendInput(1, ctypes.byref(up), ctypes.sizeof(up))
+    print("Right click release")
 
 def v_scroll(amount):
     """
@@ -177,6 +184,8 @@ def v_scroll(amount):
     inp = INPUT(type=INPUT_MOUSE, mi=mi)
 
     user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
+    print(f"horizontal scroll by {amount}")
+
 
 def h_scroll(amount):
     """
@@ -194,6 +203,7 @@ def h_scroll(amount):
     )
     inp = INPUT(type=INPUT_MOUSE, mi=mi)
     user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
+    print(f"horizontal scroll by {amount}")
 
 def move_cursor(dx, dy):
     mi = MOUSEINPUT(
@@ -206,6 +216,7 @@ def move_cursor(dx, dy):
     )
     inp = INPUT(type=INPUT_MOUSE, mi=mi)
     user32.SendInput(1, ctypes.byref(inp), ctypes.sizeof(inp))
+    print(f"Moving cursor by ( {dx}, {dy} )")
 
 inp = InpEng()
 key_map, mouse_map = get_mapping() 
@@ -216,7 +227,6 @@ def cursor_handler():
     """
     dx, dy = inp.check_cursor_movement()
     if dx or dy:
-        print(f"moving cursor:{dx} , {dy}")
         move_cursor(dx, dy)
   
     
@@ -235,7 +245,6 @@ def knob_handler_keyb():
         if inp.delta == 0:
             release_key(VK[key_map["Knob Clockwise (Y)"]])
             release_key(VK[key_map["Knob Anti-Clockwise (Y)"]])
-        print("Y-mode is on, delta:", inp.delta)
     else:
         if inp.delta > 0: 
             release_key(VK[key_map["Knob Anti-Clockwise (X)"]])
@@ -253,10 +262,8 @@ def knob_handler_mouse():
     """
     Y_mode = inp.check_Y_mode_on()
     if Y_mode:
-        print("scrolling vertical")
         v_scroll(inp.delta * SCROLL) 
     else: 
-        print("scrolling horizontal")
         h_scroll(inp.delta * SCROLL)
 
 def update_keyboard():
@@ -270,11 +277,9 @@ def update_keyboard():
     inp.update_cur_keys("Button 4", inp.button4)
 
     for key in inp.get_cur_diff_prev():
-        print(f"{key} is pressed, producing input {key_map[key]}")
         press_key(VK[key_map[key]])
 
     for key in inp.get_prev_diff_cur():
-        print(f"{key} is released, releasing input {key_map[key]}")
         release_key(VK[key_map[key]])
     
     inp.update_prev() 
