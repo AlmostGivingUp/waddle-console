@@ -3,7 +3,7 @@ import json
 import struct
 import tkinter as tk
 from tkinter import messagebox
-from Waddle_Console.Util import pathfinder
+from Util import pathfinder
 
 
 _title = "Waddle Console"

@@ -2,8 +2,8 @@ import ctypes
 from ctypes import wintypes
 
 from ctypes import c_ulong, c_ulonglong
-from Waddle_Console.Util.mapping import get_mapping, InpEng
-from Waddle_Console.Constants.windows_const import VK, MOUSE_FLAG, SCROLL
+from Util.mapping import get_mapping, InpEng
+from Constants.windows_const import VK, MOUSE_FLAG, SCROLL
 
 
 INPUT_MOUSE = 0
