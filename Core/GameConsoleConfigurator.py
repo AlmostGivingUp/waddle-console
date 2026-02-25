@@ -386,7 +386,7 @@ class MappingApp:
                 key_name = self.key_lookup.get(key_code, self.key_mapping[self.current_selected_key])
 
             # Save the mapping
-            if self.current_config_mode == "normal":
+            if self.current_config_mode == "Normal":
                 self.key_mapping[self.current_selected_key] = key_name
                 print(f"Mapped {self.current_selected_key} to {key_name} new {new_key_code if new_key_code else key_code}")
             else:
@@ -586,22 +586,34 @@ class MappingApp:
         self.profile_items()
 
     def load_config(self, sender, app_data, user_data):
-        """
-        Load chosen configuration
-        """
-        print(f"User data: {user_data}")
         profile_name = user_data
-        filename = PROFILE_PATH / f"{profile_name}.json"
-        with open(filename, "r") as f:
-            data = json.load(f)
-        self.key_mapping = data
-        if dpg.does_item_exist("Profile_Name"):
-            dpg.set_value("Profile_Name", profile_name)
-        for btn, key in self.key_mapping.items():
-            tag = f"key_value_{btn}"
-            if dpg.does_item_exist(tag):
-                dpg.set_value(tag, key)
-        print(f"Loading: {profile_name}")
+
+        # Detect mouse profile
+        if profile_name.endswith("_Mouse"):
+            filename = PROFILE_PATH / f"{profile_name}.json"
+            with open(filename, "r") as f:
+                self.mouse_mapping = json.load(f)
+
+            self.current_config_mode = "Mouse Configuration"
+            dpg.configure_item("mode_button", label="Normal")
+        # Normal profile
+        else:
+            filename = PROFILE_PATH / f"{profile_name}.json"
+            with open(filename, "r") as f:
+                self.key_mapping = json.load(f)
+
+            self.current_config_mode = "Normal"
+            dpg.configure_item("mode_button", label="Mouse Configuration")
+
+        # Rebuild config list UI
+        dpg.delete_item("Config_List", children_only=True)
+        
+        if self.current_config_mode == "Normal":
+            self.config_list()
+        else:
+            self.mouse_config_list()
+
+        dpg.set_value("Profile_Name", profile_name)
     
 
             
