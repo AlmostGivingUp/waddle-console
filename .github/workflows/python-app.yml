@@ -61,10 +61,13 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           pyinstaller --clean --onefile `
-            --name "Waddle Console" `
-            --icon=Assets/Console.ico `
-            --add-data "Assets;Assets" `
-            main.py
+          --name "Waddle Console" `
+          --add-data "Assets:Assets" `
+          --collect-submodules Core `
+          --collect-submodules Util `
+          --collect-submodules Injectors `
+          main.py
+           
 
       # -------------------------
       # Build macOS
