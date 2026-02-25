@@ -1,5 +1,5 @@
-from Core.GameConsoleConfigurator import start_configurator
-from Core.GameConsoleInterpreter import connecting_and_read
+from Waddle_Console.Core.GameConsoleConfigurator import start_configurator
+from Waddle_Console.Core.GameConsoleInterpreter import connecting_and_read
 import time 
 import threading 
 

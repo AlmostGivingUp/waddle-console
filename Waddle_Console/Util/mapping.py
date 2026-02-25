@@ -3,7 +3,7 @@ import json
 import struct
 import tkinter as tk
 from tkinter import messagebox
-from Util import path
+from Waddle_Console.Util import pathfinder
 
 
 _title = "Waddle Console"
@@ -174,7 +174,7 @@ def get_mapping():
     """
     key_mapping = {}
     mouse_mapping = {} 
-    ACTIVE_PATH = path.get_active_dir()
+    ACTIVE_PATH = pathfinder.get_active_dir()
     acfg = ACTIVE_PATH / "Active_Config.json"
     mcfg =  ACTIVE_PATH / "Active_Mouse_Config.json"
     try:
