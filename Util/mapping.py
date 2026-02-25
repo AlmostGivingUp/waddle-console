@@ -112,12 +112,14 @@ class InpEng:
         """
         provide cursor movement
         """
+        #grab delta's sign 
+        sign = 1 * self.delta / int(self.delta)
         if not self.is_cursor_mode_on:
             # clear velocity 
             self._velocity = 0
             return 0,0
         if self.delta:
-            self._velocity = 0.6 * self._velocity + self.delta
+            self._velocity = (0.6 * self._velocity + self.delta) * sign
         else:
             self._velocity *= 0.4
         movement = int(self._velocity * self._CURSOR_GAIN)
