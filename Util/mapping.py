@@ -44,7 +44,7 @@ class InpEng:
     _Y_mode_on = 0x01
     
     #Cursor
-    _CURSOR_GAIN = 1.5 
+    _CURSOR_GAIN = 10 
     _MAX_CURSOR_DIST = 100 
     
     def __init__(self):

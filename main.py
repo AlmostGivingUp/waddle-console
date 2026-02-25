@@ -9,8 +9,6 @@ def main():
     t.start() #running background thread
     start_configurator() #main program
 
-
-
 if __name__ == "__main__":
     print("starting main...\n")
     main()
