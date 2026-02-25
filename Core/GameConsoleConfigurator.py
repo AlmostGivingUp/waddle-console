@@ -497,10 +497,11 @@ class MappingApp:
         """
         profile_name = dpg.get_value("Profile_Name")
         
-        filename = PROFILE_PATH / f"{profile_name}_Mouse.json" if self.current_config_mode == "Mouse Configuration" and not profile_name.endswith("_Mouse.json") else f"{profile_name}.json"
+        filename = PROFILE_PATH / f"{profile_name}_Mouse.json" if self.current_config_mode == "Mouse Configuration" and not profile_name.endswith("_Mouse.json") else PROFILE_PATH / f"{profile_name}.json"
         active_configs = ACTIVE_PATH / "Active_Config.json"
         active_mouse_configs = ACTIVE_PATH / "Active_Mouse_Config.json"
-        print(IMAGE_PATH, FONT_PATH)
+        print(IMAGE_PATH)
+        print(FONT_PATH)
         print(PROFILE_PATH, ACTIVE_PATH)
         
         
