@@ -306,15 +306,15 @@ class MappingApp:
         if self.current_config_mode == "Normal":
             buttons = {
                 "Button 1": [1122.0, 305.0],
-                "Button 2": [1065.0, 349.0],
-                "Button 3":  [1179.0, 349.0], 
+                "Button 2": [1179.0, 349.0], 
+                "Button 3":  [1065.0, 349.0],
                 "Button 4": [1122.0, 400.0],
                 "Knob":[744.0, 360.0]
             }
         else:
             buttons = {
                 "Button 1": [1122.0, 305.0],
-                "Button 2": [1065.0, 349.0],
+                "Button 2":[1179.0, 349.0], 
             } 
 
         for name, center in buttons.items():
