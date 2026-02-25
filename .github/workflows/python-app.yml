@@ -60,7 +60,7 @@ jobs:
       - name: Build Windows EXE
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --onefile `
+          pyinstaller -- clean --onefile `
             --name "Waddle Console" `
             --icon=Assets/Console.ico `
             --add-data "Assets;Assets" `
@@ -73,7 +73,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install hidapi 
-          pyinstaller --onefile \
+          pyinstaller -- clean --onefile \
             --windowed \
             --name "Waddle Console" \
             --icon=Assets/Console.icns \
@@ -86,7 +86,7 @@ jobs:
       - name: Build Linux Binary
         if: runner.os == 'Linux'
         run: |
-          pyinstaller --onefile \
+          pyinstaller --clean --onefile \
             --name "Waddle Console" \
             --add-data "Assets:Assets" \
             main.py

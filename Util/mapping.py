@@ -3,6 +3,7 @@ import json
 import struct
 import tkinter as tk
 from tkinter import messagebox
+from Util import path
 
 
 _title = "Waddle Console"
@@ -173,8 +174,9 @@ def get_mapping():
     """
     key_mapping = {}
     mouse_mapping = {} 
-    acfg =  "Active_Config.json"
-    mcfg =  "Active_Mouse_Config.json"
+    ACTIVE_PATH = path.get_active_dir()
+    acfg = ACTIVE_PATH / "Active_Config.json"
+    mcfg =  ACTIVE_PATH / "Active_Mouse_Config.json"
     try:
         with open(acfg, "r") as f:
             key_mapping = json.load(f)
