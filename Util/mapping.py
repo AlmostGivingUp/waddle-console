@@ -57,7 +57,6 @@ class InpEng:
         self.mouse_previous_keys = set()
 
         #Cursor
-        self._velocity = 0
         self.is_cursor_mode_on = False
 
     def update_data(self, data):
@@ -115,15 +114,8 @@ class InpEng:
         #grab delta's sign 
         
         if not self.is_cursor_mode_on:
-            # clear velocity 
-            self._velocity = 0
             return 0,0
-        if self.delta:
-            sign = 1 * self.delta / self.delta 
-            self._velocity = (0.6 * self._velocity + self.delta) * sign
-        else:
-            self._velocity *= 0.4
-        movement = int(self._velocity * self._CURSOR_GAIN)
+        movement = int(self.delta * self._CURSOR_GAIN)
         movement = max(-self._MAX_CURSOR_DIST, min(self._MAX_CURSOR_DIST, movement))
 
         if self.is_Y_mode_on:
