@@ -210,7 +210,7 @@ def move_cursor(dx, dy):
         dx,
         dy,
         0,
-        MOUSE_FLAG["Move"],
+        MOUSE_FLAG["MOVE"],
         0,
         0
     )
