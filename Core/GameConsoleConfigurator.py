@@ -11,8 +11,12 @@ aspect_ratio = (INIT_HEIGHT / INIT_WIDTH) * 1.5
 IMAGE_PATH = path.get_resource_path("Assets/Console.png")
 FONT_PATH = path.get_resource_path("Assets")
 
+print(IMAGE_PATH, FONT_PATH)
+
 PROFILE_PATH = path.get_profiles_dir()
 ACTIVE_PATH = path.get_active_dir()
+
+print(PROFILE_PATH, ACTIVE_PATH)
 
 class MappingApp:
     def __init__(self):
