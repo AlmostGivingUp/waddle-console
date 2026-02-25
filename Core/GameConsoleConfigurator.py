@@ -388,7 +388,6 @@ class MappingApp:
             # Save the mapping
             if self.current_config_mode == "Normal":
                 self.key_mapping[self.current_selected_key] = key_name
-                print(f"Mapped {self.current_selected_key} to {key_name} new {new_key_code if new_key_code else key_code}")
             else:
                 self.mouse_mapping[self.current_selected_key] = key_name
             dpg.set_value(f"key_value_{self.current_selected_key}", key_name) 
