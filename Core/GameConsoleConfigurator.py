@@ -597,11 +597,11 @@ class MappingApp:
         profile_name = user_data
 
         # Detect mouse profile
-        if profile_name.endswith("_Mouse"):
+        if profile_name.endswith("_Mouse") and self.current_config_mode == "Mouse Configuration":
             filename = PROFILE_PATH / f"{profile_name}.json"
             with open(filename, "r") as f:
                 self.mouse_mapping = json.load(f)
-            self.current_config_mode = "Mouse Configuration"
+            
             dpg.configure_item("mode_button", label="Normal")
         # Detect normal profile 
         else:
