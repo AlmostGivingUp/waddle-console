@@ -6,9 +6,6 @@ source venv/bin/activate # pyright: ignore[reportUndefinedVariable]
 pip install [DEPENDENCY] # type: ignore
 sudo /home/yan_wong/Console/venv/bin/python [SCRIPT]
 
-Tester
-
-
 
 
 

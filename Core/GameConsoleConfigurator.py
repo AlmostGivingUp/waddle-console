@@ -558,8 +558,13 @@ class MappingApp:
         Save and Apply current configuration
         """
         profile_name = dpg.get_value("Profile_Name")
+        if profile_name.endswith("_Mouse.json"):
+            filename = PROFILE_PATH / f"{profile_name}.json"
+        elif self.current_config_mode == "Mouse Configuration":
+            filename = PROFILE_PATH / f"{profile_name}_Mouse.json"
+        else:
+            filename = PROFILE_PATH / f"{profile_name}.json"
         
-        filename = PROFILE_PATH / f"{profile_name}_Mouse.json" if self.current_config_mode == "Mouse Configuration" and not profile_name.endswith("_Mouse.json") else PROFILE_PATH / f"{profile_name}.json"
         active_configs = ACTIVE_PATH / "Active_Config.json"
         active_mouse_configs = ACTIVE_PATH / "Active_Mouse_Config.json"
         print(IMAGE_PATH)
@@ -607,7 +612,11 @@ class MappingApp:
             dpg.configure_item("mode_button", label="Mouse Configuration")
 
         if dpg.does_item_exist("Profile_Name"):
-            dpg.set_value("Profile_Name", profile_name)
+            try:
+                temp_name = profile_name.replace("_Mouse", "")
+            except:
+                temp_name = profile_name 
+            dpg.set_value("Profile_Name", temp_name)
 
         for btn, key in self.key_mapping.items():
             tag = f"key_value_{btn}"
