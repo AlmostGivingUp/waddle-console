@@ -597,7 +597,7 @@ class MappingApp:
         profile_name = user_data
 
         # Detect mouse profile
-        if profile_name.endswith("_Mouse") and self.current_config_mode == "Mouse Configuration":
+        if self.current_config_mode == "Mouse Configuration":
             filename = PROFILE_PATH / f"{profile_name}.json"
             with open(filename, "r") as f:
                 self.mouse_mapping = json.load(f)
