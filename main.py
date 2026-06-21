@@ -1,9 +1,11 @@
-from Core.GameConsoleConfigurator import start_configurator
-from Core.GameConsoleInterpreter import connecting_and_read
-
+from Core.game_console_configurator import MappingApp
+from Core.game_console_interpreter import connecting_and_read
+import dearpygui.dearpygui as dpg # type: ignore
 
 def main():
-    start_configurator() #main program
+    MappingApp()
+    dpg.start_dearpygui() 
+    dpg.destroy_context() #main program
 
 if __name__ == "__main__":
     print("starting main...\n")
