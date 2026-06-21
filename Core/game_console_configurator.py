@@ -153,7 +153,7 @@ class MappingApp:
         
         #--------------------------Joystick Popup --------------------------#
         self.build_joystick_popup()
-        #self._build_error_popup()
+        self._build_error_popup()
 
         #--------------------------Boilerplate --------------------------#
         dpg.create_viewport(title="Waddle Console", width=INIT_WIDTH, height=INIT_HEIGHT)
@@ -161,13 +161,13 @@ class MappingApp:
         dpg.show_viewport()
         dpg.set_primary_window("Primary_Window", True)
         dpg.set_frame_callback(1, self._poll_events)
-        """
+        
         threading.Thread(
             target=connecting_and_read,
             args=(self.event_queue,),
             daemon=True
         ).start()
-        """
+    
 
     #--------------------Dynamic Mapping----------------------------------#
     @property
@@ -215,9 +215,9 @@ class MappingApp:
             """
             with dpg.window(
                 tag="Pop_Up_Window",
-                modal=True,
+                modal=False,
                 show=False,
-                no_close=True,
+                no_close=False,
                 width=400,
                 height=150
             ):
@@ -228,7 +228,7 @@ class MappingApp:
     def _poll_events(self, sender, app_data):
         while not self.event_queue.empty():
             event_type, message = self.event_queue.get()
-            if event_type == "Error" or event_type == "Success":
+            if event_type in (EventType.SUCCESS, EventType.ERROR):
                 dpg.set_value("Pop_Up", message)
                 dpg.show_item("Pop_Up_Window")
         # Keep polling every frame
@@ -349,6 +349,7 @@ class MappingApp:
                 self.capture_origin = "BUTTON"
                 self.current_selected_key = name
                 self.set_input_state(InputState.WAITING_FOR_KEY)
+                print(f"is over{name}")
                 return True, new_center
         
         return False, (0,0)
