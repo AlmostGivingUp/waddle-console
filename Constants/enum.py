@@ -17,3 +17,10 @@ class InputState(Enum):
     IDLE = 0
     WAITING_FOR_KEY = 1
     JOYSTICK_CONFIG = 2
+
+class EventType(Enum):
+    """
+    For Event type Success/Error 
+    """
+    SUCCESS = "Success"
+    ERROR = "Error"

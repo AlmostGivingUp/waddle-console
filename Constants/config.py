@@ -12,14 +12,14 @@ ACTIVE_PATH = pathfinder.get_active_dir()
 BUTTON_LAYOUT_KEYBOARD = {
     "BUTTON 1": [1122.0, 305.0],
     "BUTTON 2": [1179.0, 349.0], 
-    "BUTTON 3":  [1065.0, 349.0],
-    "BUTTON 4": [1122.0, 400.0],
+    "BUTTON 3": [1122.0, 400.0],
+    "BUTTON 4": [1065.0, 349.0], 
     "JOYSTICK":[744.0, 360.0]
 }
 
 BUTTON_LAYOUT_MOUSE = {
   "BUTTON 1": [1122.0, 305.0],
-  "BUTTON 3":[1179.0, 349.0], 
+  "BUTTON 3": [1122.0, 400.0], 
 }
 
 JOYSTICK_FIELDS = {
