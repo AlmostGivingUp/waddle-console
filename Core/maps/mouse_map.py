@@ -8,9 +8,9 @@ class MouseMap(Map):
         super().__init__()
         self.buttons = {
             "BUTTON 1": 'W',
-            "BUTTON 2": 'D',
-            "BUTTON 3": 'LEFT',
-            "BUTTON 4": 'RIGHT'
+            "BUTTON 2": 'RIGHT',
+            "BUTTON 3": 'D',
+            "BUTTON 4": 'LEFT'
         }
 
         self.joysticks = {
