@@ -20,7 +20,7 @@ class HIDProcessor:
     """
     def __init__(self):
         self.input_engine = InpEng()
-
+        self.key_map, self.mouse_map = self.get_mapping()
         
     def get_mapping(self): 
         """
@@ -57,20 +57,20 @@ class HIDProcessor:
         Main entry point.
         Called whenever a HID report arrives.
         """
-        key_map, mouse_map = self.get_mapping()
+        
         self.input_engine.update_data(data)
 
         if self.input_engine.is_mouse_on:
             # Handle scrolling/cursor/mouse-related keyboard presses
-            self.update_mouse(mouse_map)
+            self.update_mouse(self.mouse_map)
             self.handle_cursor()
             self.handle_scroll()
         else:
-            self.update_keyboard(key_map)
-            self.handle_joystick_keyboard(key_map)
+            self.update_keyboard()
+            self.handle_joystick_keyboard()
 
     #------------------KeyBoard Mode--------------------#
-    def update_keyboard(self, key_map):
+    def update_keyboard(self):
         """
         Mapping keyboard-related keypress  
         """
@@ -81,11 +81,11 @@ class HIDProcessor:
                 mask
             )
         for button in self.input_engine.keyboard.pressed:
-            mapped_key = key_map[button]
+            mapped_key = self.key_map[button]
             InputSender.press_key(VK[mapped_key])
 
         for button in self.input_engine.keyboard.released:
-            mapped_key = key_map[button]
+            mapped_key = self.key_map[button]
             InputSender.release_key(VK[mapped_key])
 
         self.input_engine.keyboard.update()
@@ -164,7 +164,7 @@ class HIDProcessor:
 
     #-------------------Joystick Keyboard-------------------#
 
-    def handle_joystick_keyboard(self, key_map):
+    def handle_joystick_keyboard(self):
         """
         Handling mapping joystick to keyboard key presses 
         """
@@ -172,8 +172,8 @@ class HIDProcessor:
         y = self.input_engine.joystick_y
 
         # X Axis
-        left_key = key_map["JOYSTICK X-AXIS LEFT"]
-        right_key = key_map["JOYSTICK X-AXIS RIGHT"]
+        left_key = self.key_map["JOYSTICK X-AXIS LEFT"]
+        right_key = self.key_map["JOYSTICK X-AXIS RIGHT"]
 
         if x > 0:
             InputSender.release_key(VK[left_key])
@@ -186,8 +186,8 @@ class HIDProcessor:
             InputSender.release_key(VK[right_key])
 
         # Y Axis
-        up_key = key_map["JOYSTICK Y-AXIS UP"]
-        down_key = key_map["JOYSTICK Y-AXIS DOWN"]
+        up_key = self.key_map["JOYSTICK Y-AXIS UP"]
+        down_key = self.key_map["JOYSTICK Y-AXIS DOWN"]
 
         if y > 0:
             InputSender.release_key(VK[down_key])
