@@ -1,4 +1,4 @@
-from Injectors.input_engine import InpEng, get_mapping
+from Injectors.input_engine import InpEng
 from Injectors.windows.windows_input_sender import InputSender
 from Constants.windows_const import VK, SCROLL
 import json 

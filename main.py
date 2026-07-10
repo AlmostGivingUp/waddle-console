@@ -1,5 +1,4 @@
 from Core.game_console_configurator import MappingApp
-from Core.game_console_interpreter import connecting_and_read
 import dearpygui.dearpygui as dpg # type: ignore
 
 def main():
