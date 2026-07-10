@@ -60,7 +60,7 @@ class HIDProcessor:
         key_map, mouse_map = self.get_mapping()
         self.input_engine.update_data(data)
 
-        if self.input_engine.is_mouse_on():
+        if self.input_engine.is_mouse_on:
             # Handle scrolling/cursor/mouse-related keyboard presses
             self.update_mouse(mouse_map)
             self.handle_cursor()
@@ -153,7 +153,7 @@ class HIDProcessor:
         """
         Scroll page horizontally/vertically 
         """
-        if not self.input_engine.is_scroll_on():
+        if not self.input_engine.is_scroll_on:
             return
         dx, dy = self.input_engine.get_cursor_delta()
         if dx:
