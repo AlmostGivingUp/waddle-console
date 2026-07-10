@@ -50,6 +50,9 @@ class HIDProcessor:
             print(f"{mcfg} not found. Defaulting...\n")
             mouse_mapping = MouseMap().get_map()
 
+        print ("key mapping", key_mapping, "\n")
+        print ("mouse mapping", mouse_mapping, "\n")
+
         return key_mapping, mouse_mapping
 
     def process_hid_report(self, data: list):
