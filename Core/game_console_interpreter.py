@@ -6,7 +6,7 @@ import queue
 from Constants.enum import EventType 
 
 if platform.system() == "Windows":
-    from Injectors.windows_injector import key_mapping
+    from Injectors.windows.windows_injector import HIDProcessor
 """
 elif platform.system() == "Linux":
     from Injectors.linux_injector import key_mapping
@@ -41,10 +41,11 @@ def connect_device(event_queue: queue):
 
 def read_loop(device):
     while True:
-        data = device.read(4) # 32 bits 
+        data = device.read(6) 
         if data:
             print(data)
-            key_mapping(data)
+            processor = HIDProcessor() 
+            processor.process_hid_report(data)
             
 def connecting_and_read(event_queue: queue):
     device = connect_device(event_queue)

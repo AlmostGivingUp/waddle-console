@@ -1,6 +1,10 @@
 from Injectors.input_engine import InpEng, get_mapping
 from Injectors.windows.windows_input_sender import InputSender
 from Constants.windows_const import VK, SCROLL
+import json 
+from Core.maps.mouse_map import MouseMap 
+from Core.maps.key_map import KeyMap 
+from Util import pathfinder
 
 BUTTON_MASKS = {
     "BUTTON 1": InpEng.BUTTON1,
@@ -11,19 +15,52 @@ BUTTON_MASKS = {
 
 
 class HIDProcessor:
-
+    """
+    Updating current hardware state
+    """
     def __init__(self):
         self.input_engine = InpEng()
+
+        
+    def get_mapping(self): 
+        """
+        Loading keyboard and mouse selected configuration 
+        """
+        key_mapping = {}
+        mouse_mapping = {} 
+        ACTIVE_PATH = pathfinder.get_active_dir()
+        acfg = ACTIVE_PATH / "Active_Config.json"
+        mcfg =  ACTIVE_PATH / "Active_Mouse_Config.json"
+
+        # KeyBoard
+        try:
+            print(f"{acfg} is found")
+            with open(acfg, "r") as f:
+                key_mapping = json.load(f)
+        except: 
+            print(f"{acfg} not found. Defaulting...\n")
+            key_mapping = KeyMap().get_map()
+
+        # Mouse 
+        try: 
+            print(f"{mcfg} found")
+            with open(mcfg, "r") as f:
+                mouse_mapping = json.load(f)
+        except:
+            print(f"{mcfg} not found. Defaulting...\n")
+            mouse_mapping = MouseMap().get_map()
+
+        return key_mapping, mouse_mapping
 
     def process_hid_report(self, data: list):
         """
         Main entry point.
         Called whenever a HID report arrives.
         """
-        key_map, mouse_map = get_mapping()
+        key_map, mouse_map = self.get_mapping()
         self.input_engine.update_data(data)
 
-        if self.input_engine.check_mouse_on():
+        if self.input_engine.is_mouse_on():
             # Handle scrolling/cursor/mouse-related keyboard presses
             self.update_mouse(mouse_map)
             self.handle_cursor()
@@ -116,7 +153,7 @@ class HIDProcessor:
         """
         Scroll page horizontally/vertically 
         """
-        if not self.input_engine.check_scroll_on():
+        if not self.input_engine.is_scroll_on():
             return
         dx, dy = self.input_engine.get_cursor_delta()
         if dx:

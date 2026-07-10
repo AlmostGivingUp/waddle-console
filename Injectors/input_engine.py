@@ -1,13 +1,12 @@
 
-import json 
-from Core.maps.mouse_map import MouseMap 
-from Core.maps.key_map import KeyMap 
-from Core.maps.map import Map
-from Util import pathfinder
+
 
 import struct
 
 class KeyState:
+    """
+    Save all key states 
+    """
     def __init__(self):
         self.current = set()
         self.previous = set()
@@ -176,33 +175,3 @@ class InpEng:
         """
         self.keyboard.update()
         self.mouse.update()
-
-def get_mapping(): 
-    """
-    Loading keyboard and mouse selected configuration 
-    """
-    key_mapping = {}
-    mouse_mapping = {} 
-    ACTIVE_PATH = pathfinder.get_active_dir()
-    acfg = ACTIVE_PATH / "Active_Config.json"
-    mcfg =  ACTIVE_PATH / "Active_Mouse_Config.json"
-
-    # KeyBoard
-    try:
-        print(f"{acfg} is found")
-        with open(acfg, "r") as f:
-            key_mapping = json.load(f)
-    except: 
-        print(f"{acfg} not found. Defaulting...\n")
-        key_mapping = KeyMap().get_map()
-
-    # Mouse 
-    try: 
-        print(f"{mcfg} found")
-        with open(mcfg, "r") as f:
-            mouse_mapping = json.load(f)
-    except:
-        print(f"{mcfg} not found. Defaulting...\n")
-        mouse_mapping = MouseMap().get_map()
-
-    return key_mapping, mouse_mapping
