@@ -152,7 +152,7 @@ class InpEng:
             self.CURSOR_GAIN
         )
 
-        dy = int(
+        dy = -int(
             self.joystick_y / 2048.0 *
             self.CURSOR_GAIN
         )
