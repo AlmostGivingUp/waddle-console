@@ -152,7 +152,37 @@ class InpEng:
             self.CURSOR_GAIN
         )
 
-        dy = -int(
+        dy = - int(
+            self.joystick_y / 2048.0 *
+            self.CURSOR_GAIN
+        )
+
+        # Boundary control 
+        dx = max(
+            -self.MAX_CURSOR_DIST,
+            min(self.MAX_CURSOR_DIST, dx)
+        )
+
+        dy = max(
+            -self.MAX_CURSOR_DIST,
+            min(self.MAX_CURSOR_DIST, dy)
+        )
+        return dx, dy
+
+    def get_scroll_delta(self):
+        """
+        Getting scroll movements 
+        """
+        if not self.is_mouse_on:
+            return 0, 0
+        
+        # Normalizing  
+        dx = int(
+            self.joystick_x / 2048.0 *
+            self.CURSOR_GAIN
+        )
+
+        dy = int(
             self.joystick_y / 2048.0 *
             self.CURSOR_GAIN
         )

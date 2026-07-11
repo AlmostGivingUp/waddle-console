@@ -147,7 +147,8 @@ class HIDProcessor:
         Move cursor 
         """
         dx, dy = self.input_engine.get_cursor_delta()
-        if dx != 0 or dy != 0: # Don't move if no reads from both
+        # Don't move if both 0 and if scrolling is on 
+        if (dx != 0 and dy != 0) or self.input_engine.is_scroll_on: # Don't move if no reads from both
             self.inputSender.move_cursor(dx, dy)
 
     #-------------------Scroll-------------------#
@@ -157,11 +158,12 @@ class HIDProcessor:
         """
         if not self.input_engine.is_scroll_on:
             return
-        dx, dy = self.input_engine.get_cursor_delta()
+        dx, dy = self.input_engine.get_scroll_delta()
         if dx:
             self.inputSender.h_scroll(dx * SCROLL)
 
         if dy:
+            # inverted scrolling 
             self.inputSender.v_scroll(dy * SCROLL)
 
     #-------------------Joystick Keyboard-------------------#
