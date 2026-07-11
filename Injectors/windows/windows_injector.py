@@ -1,7 +1,6 @@
 from Injectors.input_engine import InpEng
 from Injectors.windows.windows_input_sender import InputSender
 from Constants.windows_const import VK, SCROLL
-import json 
 from Core.maps.mouse_map import MouseMap 
 from Core.maps.key_map import KeyMap 
 from Util import pathfinder
@@ -18,6 +17,8 @@ class HIDProcessor:
     """
     Updating current hardware state
     """
+    inputSender = InputSender() 
+    
     def __init__(self):
         self.input_engine = InpEng()
         self.key_map, self.mouse_map = self.get_mapping()
@@ -83,11 +84,11 @@ class HIDProcessor:
             )
         for button in self.input_engine.keyboard.pressed:
             mapped_key = self.key_map[button]
-            InputSender.press_key(VK[mapped_key])
+            self.inputSender.press_key(VK[mapped_key])
 
         for button in self.input_engine.keyboard.released:
             mapped_key = self.key_map[button]
-            InputSender.release_key(VK[mapped_key])
+            self.inputSender.release_key(VK[mapped_key])
 
         self.input_engine.keyboard.update()
 
@@ -118,26 +119,26 @@ class HIDProcessor:
         Handling clicks and normal key presses
         """
         if mapped_key == "LEFT":
-            InputSender.left_click_press()
+            self.inputSender.left_click_press()
 
         elif mapped_key == "RIGHT":
-            InputSender.right_click_press()
+            self.inputSender.right_click_press()
 
         else:
-            InputSender.press_key(VK[mapped_key])
+            self.inputSender.press_key(VK[mapped_key])
 
     def _mouse_release(self, mapped_key):
         """
         Handling clicks and normal key release
         """
         if mapped_key == "LEFT":
-            InputSender.left_click_release()
+            self.inputSender.left_click_release()
 
         elif mapped_key == "RIGHT":
-            InputSender.right_click_release()
+            self.inputSender.right_click_release()
 
         else:
-            InputSender.release_key(VK[mapped_key])
+            self.inputSender.release_key(VK[mapped_key])
 
 
     #-------------------Cursor-------------------#
@@ -147,7 +148,7 @@ class HIDProcessor:
         """
         dx, dy = self.input_engine.get_cursor_delta()
         if dx != 0 or dy != 0: # Don't move if no reads from both
-            InputSender.move_cursor(dx, dy)
+            self.inputSender.move_cursor(dx, dy)
 
     #-------------------Scroll-------------------#
     def handle_scroll(self):
@@ -158,10 +159,10 @@ class HIDProcessor:
             return
         dx, dy = self.input_engine.get_cursor_delta()
         if dx:
-            InputSender.h_scroll(dx * SCROLL)
+            self.inputSender.h_scroll(dx * SCROLL)
 
         if dy:
-            InputSender.v_scroll(dy * SCROLL)
+            self.inputSender.v_scroll(dy * SCROLL)
 
     #-------------------Joystick Keyboard-------------------#
 
@@ -177,25 +178,25 @@ class HIDProcessor:
         right_key = self.key_map["JOYSTICK X-AXIS RIGHT"]
 
         if x > 0:
-            InputSender.release_key(VK[left_key])
-            InputSender.press_key(VK[right_key])
+            self.inputSender.release_key(VK[left_key])
+            self.inputSender.press_key(VK[right_key])
         elif x <0:
-            InputSender.release_key(VK[right_key])
-            InputSender.press_key(VK[left_key])
+            self.inputSender.release_key(VK[right_key])
+            self.inputSender.press_key(VK[left_key])
         else: 
-            InputSender.release_key(VK[left_key])
-            InputSender.release_key(VK[right_key])
+            self.inputSender.release_key(VK[left_key])
+            self.inputSender.release_key(VK[right_key])
 
         # Y Axis
         up_key = self.key_map["JOYSTICK Y-AXIS UP"]
         down_key = self.key_map["JOYSTICK Y-AXIS DOWN"]
 
         if y > 0:
-            InputSender.release_key(VK[down_key])
-            InputSender.press_key(VK[up_key])
+            self.inputSender.release_key(VK[down_key])
+            self.inputSender.press_key(VK[up_key])
         elif y < 0:
-            InputSender.release_key(VK[up_key])
-            InputSender.press_key(VK[down_key])
+            self.inputSender.release_key(VK[up_key])
+            self.inputSender.press_key(VK[down_key])
         else:
-            InputSender.release_key(VK[up_key])
-            InputSender.release_key(VK[down_key])
+            self.inputSender.release_key(VK[up_key])
+            self.inputSender.release_key(VK[down_key])
