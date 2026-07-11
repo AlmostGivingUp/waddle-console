@@ -35,18 +35,16 @@ class HIDProcessor:
         # KeyBoard
         try:
             print(f"{acfg} is found")
-            with open(acfg, "r") as f:
-                key_mapping = json.load(f)
-        except: 
+            key_mapping = KeyMap.load(acfg)
+        except Exception:
             print(f"{acfg} not found. Defaulting...\n")
             key_mapping = KeyMap()
 
         # Mouse 
-        try: 
+        try:
             print(f"{mcfg} found")
-            with open(mcfg, "r") as f:
-                mouse_mapping = json.load(f)
-        except:
+            mouse_mapping = MouseMap.load(mcfg)
+        except Exception:
             print(f"{mcfg} not found. Defaulting...\n")
             mouse_mapping = MouseMap()
 
