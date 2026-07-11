@@ -68,8 +68,9 @@ def connecting_and_read(event_queue: queue):
                 (EventType.ERROR, "Device disconnected. Reconnecting...")
             )
         finally: 
-            print(f"USB disconnected: {e}")
-            event_queue.put(
-                (EventType.ERROR, "Device disconnected. Reconnecting...")
-            )
-        
+            try:
+                device.close()
+            except Exception:
+                pass
+
+        time.sleep(1)
