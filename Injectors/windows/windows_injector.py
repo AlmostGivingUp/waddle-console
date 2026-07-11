@@ -39,7 +39,7 @@ class HIDProcessor:
                 key_mapping = json.load(f)
         except: 
             print(f"{acfg} not found. Defaulting...\n")
-            key_mapping = KeyMap().get_map()
+            key_mapping = KeyMap()
 
         # Mouse 
         try: 
@@ -48,7 +48,7 @@ class HIDProcessor:
                 mouse_mapping = json.load(f)
         except:
             print(f"{mcfg} not found. Defaulting...\n")
-            mouse_mapping = MouseMap().get_map()
+            mouse_mapping = MouseMap()
 
         print ("key mapping", key_mapping, "\n")
         print ("mouse mapping", mouse_mapping, "\n")
