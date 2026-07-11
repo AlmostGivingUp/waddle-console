@@ -18,7 +18,7 @@ class HIDProcessor:
     Updating current hardware state
     """
     inputSender = InputSender() 
-    
+
     def __init__(self):
         self.input_engine = InpEng()
         self.key_map, self.mouse_map = self.get_mapping()
@@ -177,10 +177,13 @@ class HIDProcessor:
         left_key = self.key_map["JOYSTICK X-AXIS LEFT"]
         right_key = self.key_map["JOYSTICK X-AXIS RIGHT"]
 
+
         if x > 0:
+            print("pressing right key")
             self.inputSender.release_key(VK[left_key])
             self.inputSender.press_key(VK[right_key])
         elif x <0:
+            print("pressing left key")
             self.inputSender.release_key(VK[right_key])
             self.inputSender.press_key(VK[left_key])
         else: 
